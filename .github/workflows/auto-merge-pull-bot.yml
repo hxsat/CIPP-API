@@ -1,0 +1,22 @@
+name: Auto-merge PRs from pull[bot]
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  automerge:
+    if: github.actor == 'pull[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-merge pull request
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: merge
+
+      - name: Merge pull request
+        uses: peter-evans/pull-request-merge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: merge
